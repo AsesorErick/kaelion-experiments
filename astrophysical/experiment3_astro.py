@@ -1,433 +1,472 @@
 """
-KAELION EXPERIMENT 3: ASTROPHYSICAL SIGNATURES
-===============================================
-Searching for Kaelion signatures in astrophysical data.
-
-Data sources:
-- LIGO/Virgo gravitational wave data
-- Event Horizon Telescope (EHT)
-- X-ray observations (Chandra, XMM-Newton)
+Kaelion Experiment 3: Astrophysical Signatures
+==============================================
+Protocols for detecting λ in real black hole observations.
 
 Author: Erick Francisco Pérez Eugenio
 Date: January 2026
+DOI: 10.5281/zenodo.18238030
+
+Target Instruments:
+- LIGO/Virgo/KAGRA (gravitational waves)
+- Event Horizon Telescope (shadows)
+- NICER/XRISM (X-ray spectra)
+
+Status: Protocol ready - Requires next-gen sensitivity
 """
 
 import numpy as np
+from typing import Dict, List, Tuple
 import matplotlib.pyplot as plt
 
-print("="*70)
-print("KAELION EXPERIMENT 3: ASTROPHYSICAL SIGNATURES")
-print("Searching for λ in Black Hole Observations")
-print("="*70)
-
 # =============================================================================
-# OVERVIEW
+# THEORETICAL BACKGROUND
 # =============================================================================
-
-print("""
-╔══════════════════════════════════════════════════════════════════════╗
-║                                                                      ║
-║              ASTROPHYSICAL SIGNATURES OF KAELION                     ║
-║                                                                      ║
-╠══════════════════════════════════════════════════════════════════════╣
-║                                                                      ║
-║  KEY INSIGHT:                                                        ║
-║    Kaelion predicts: S = A/4 + α(λ)·log(A)                          ║
-║    The log correction affects thermodynamics                         ║
-║    This should be visible in:                                        ║
-║      • Hawking radiation spectrum (modified)                        ║
-║      • Quasinormal mode frequencies                                 ║
-║      • Merger ringdown waveforms                                    ║
-║                                                                      ║
-║  CHALLENGE:                                                          ║
-║    Effects are tiny: O(log(M)/M) corrections                        ║
-║    Need high-precision observations                                  ║
-║                                                                      ║
-╚══════════════════════════════════════════════════════════════════════╝
-""")
-
-# =============================================================================
-# PART 1: GRAVITATIONAL WAVE SIGNATURES
-# =============================================================================
-
-print("\n" + "="*70)
-print("PART 1: GRAVITATIONAL WAVE SIGNATURES")
-print("="*70)
-
-class GravitationalWaveSignature:
-    """
-    Kaelion modifications to gravitational wave signals.
-    """
-    
-    def __init__(self, M_solar=30):
-        """
-        M_solar: Black hole mass in solar masses
-        """
-        self.M = M_solar
-        self.G = 1  # Geometric units
-        self.c = 1
-        
-    def area_from_mass(self):
-        """
-        Horizon area A = 16πM² (Schwarzschild)
-        """
-        return 16 * np.pi * self.M**2
-    
-    def standard_entropy(self):
-        """
-        Bekenstein-Hawking: S = A/4
-        """
-        return self.area_from_mass() / 4
-    
-    def kaelion_entropy(self, lambda_param):
-        """
-        Kaelion: S = A/4 + α(λ)·log(A)
-        """
-        A = self.area_from_mass()
-        alpha = -0.5 - lambda_param
-        return A/4 + alpha * np.log(A)
-    
-    def entropy_correction_fraction(self, lambda_param):
-        """
-        Relative size of Kaelion correction.
-        """
-        S_bh = self.standard_entropy()
-        S_kaelion = self.kaelion_entropy(lambda_param)
-        return (S_kaelion - S_bh) / S_bh
-    
-    def qnm_frequency_correction(self, lambda_param):
-        """
-        Quasinormal mode frequency shift from Kaelion.
-        
-        Standard: ω ~ 1/M
-        Correction: δω/ω ~ α·log(A)/A ~ log(M)/M²
-        """
-        A = self.area_from_mass()
-        alpha = -0.5 - lambda_param
-        correction = alpha * np.log(A) / A
-        return correction
-    
-    def ringdown_modification(self, t, lambda_param):
-        """
-        Modified ringdown waveform.
-        
-        Standard: h(t) ~ exp(-t/τ) cos(ωt)
-        Kaelion: slight modification to τ and ω
-        """
-        omega_0 = 1 / self.M  # Base frequency
-        tau_0 = 10 * self.M   # Base damping time
-        
-        # Kaelion correction
-        delta = self.qnm_frequency_correction(lambda_param)
-        omega = omega_0 * (1 + delta)
-        tau = tau_0 * (1 - delta)
-        
-        return np.exp(-t/tau) * np.cos(omega * t)
-
-
-gw = GravitationalWaveSignature(M_solar=30)
-
-print(f"Black Hole Parameters (M = 30 M_sun):")
-print(f"  Horizon area: A = {gw.area_from_mass():.1f}")
-print(f"  Standard entropy: S_BH = {gw.standard_entropy():.1f}")
-
-print(f"\nKaelion corrections:")
-print(f"{'λ':<10} {'S_Kaelion':<15} {'Correction':<15}")
-print("-" * 40)
-for lam in [0.0, 0.5, 1.0]:
-    S_k = gw.kaelion_entropy(lam)
-    frac = gw.entropy_correction_fraction(lam)
-    print(f"{lam:<10.1f} {S_k:<15.1f} {frac:<15.2e}")
-
-
-# =============================================================================
-# PART 2: EVENT HORIZON TELESCOPE
-# =============================================================================
-
-print("\n" + "="*70)
-print("PART 2: EVENT HORIZON TELESCOPE SIGNATURES")
-print("="*70)
-
-print("""
-EHT OBSERVABLES:
-
-1. SHADOW SIZE
-   • Depends on photon sphere radius
-   • Kaelion might modify effective metric near horizon
-   • Precision needed: sub-percent
-
-2. PHOTON RING STRUCTURE
-   • Multiple light orbits create ring structure
-   • Kaelion affects innermost rings
-   • Observable in future EHT upgrades
-
-3. TEMPERATURE PROFILE
-   • Accretion disk temperature gradient
-   • Log corrections affect inner edge
-   • Very subtle effect
-
-CURRENT STATUS:
-   • EHT precision: ~10%
-   • Kaelion effect: ~0.01%
-   • NOT YET OBSERVABLE (need 1000x improvement)
-""")
-
-
-# =============================================================================
-# PART 3: X-RAY OBSERVATIONS
-# =============================================================================
-
-print("\n" + "="*70)
-print("PART 3: X-RAY SIGNATURES")
-print("="*70)
-
-print("""
-X-RAY OBSERVABLES:
-
-1. IRON Kα LINE PROFILE
-   • Gravitationally redshifted emission line
-   • Shape depends on metric near horizon
-   • Kaelion correction to innermost stable orbit
-
-2. QUASI-PERIODIC OSCILLATIONS (QPOs)
-   • Orbital frequencies near BH
-   • Sensitive to spacetime geometry
-   • Log corrections might be detectable
-
-3. THERMAL CONTINUUM
-   • Disk temperature profile
-   • Modified by Kaelion entropy
-   • Requires very precise spectroscopy
-
-BEST TARGETS:
-   • Cygnus X-1 (stellar mass BH)
-   • GRS 1915+105 (microquasar)
-   • M87* (supermassive, EHT target)
-""")
-
-
-# =============================================================================
-# PART 4: DETECTABILITY ANALYSIS
-# =============================================================================
-
-print("\n" + "="*70)
-print("PART 4: DETECTABILITY ANALYSIS")
-print("="*70)
-
-class DetectabilityAnalysis:
-    """
-    Estimate detectability of Kaelion effects.
-    """
-    
-    def __init__(self):
-        pass
-    
-    def correction_size(self, M_solar, lambda_param):
-        """
-        Size of Kaelion correction relative to leading term.
-        """
-        A = 16 * np.pi * M_solar**2
-        alpha = -0.5 - lambda_param
-        return abs(alpha * np.log(A) / (A/4))
-    
-    def snr_required(self, correction_size, confidence=5):
-        """
-        Signal-to-noise ratio needed to detect correction.
-        """
-        return confidence / correction_size
-    
-    def ligo_sensitivity(self, M_solar):
-        """
-        Approximate LIGO sensitivity for BH of given mass.
-        Current: SNR ~ 10-100 for typical events
-        """
-        return 50  # Typical SNR
-    
-    def detectable(self, M_solar, lambda_param, current_snr=50):
-        """
-        Is the Kaelion effect detectable?
-        """
-        corr = self.correction_size(M_solar, lambda_param)
-        snr_needed = self.snr_required(corr)
-        return current_snr > snr_needed, snr_needed
-
-
-detect = DetectabilityAnalysis()
-
-print(f"Detectability by Mass:")
-print(f"{'M (M_sun)':<12} {'Correction':<15} {'SNR needed':<15} {'Detectable?':<12}")
-print("-" * 54)
-
-for M in [10, 30, 100, 1000, 1e6]:
-    corr = detect.correction_size(M, lambda_param=0.5)
-    is_det, snr_need = detect.detectable(M, 0.5)
-    det_str = "Yes" if is_det else "No"
-    print(f"{M:<12.0f} {corr:<15.2e} {snr_need:<15.1f} {det_str:<12}")
-
-
-# =============================================================================
-# PART 5: FUTURE PROSPECTS
-# =============================================================================
-
-print("\n" + "="*70)
-print("PART 5: FUTURE DETECTION PROSPECTS")
-print("="*70)
-
-print("""
-TIMELINE FOR KAELION DETECTION:
-
-2025-2030: CURRENT TECHNOLOGY
-   • LIGO O4/O5 runs
-   • EHT imaging improvements
-   • NOT sensitive enough for Kaelion
-
-2030-2040: NEXT GENERATION
-   • Einstein Telescope (ET)
-   • LISA (space GW detector)
-   • ngEHT (next-gen Event Horizon Telescope)
-   • POSSIBLY detectable for extreme mass ratios
-
-2040+: FUTURE TECHNOLOGY
-   • Space-based X-ray interferometry
-   • Pulsar timing arrays
-   • LIKELY detectable
-
-BEST NEAR-TERM STRATEGY:
-   1. Focus on quantum circuit / BEC experiments
-   2. Prepare data analysis pipelines for future GW data
-   3. Collaborate with LIGO/Virgo on ringdown analysis
-   4. Wait for Einstein Telescope
-""")
-
-
-# =============================================================================
-# PART 6: VISUALIZATION
-# =============================================================================
-
-print("\n" + "="*70)
-print("GENERATING VISUALIZATION")
-print("="*70)
-
-fig, axes = plt.subplots(2, 2, figsize=(12, 10))
-fig.suptitle('KAELION EXPERIMENT 3: ASTROPHYSICAL SIGNATURES\nSearching in Black Hole Observations', 
-             fontsize=14, fontweight='bold')
-
-# 1. Correction size vs mass
-ax1 = axes[0, 0]
-masses = np.logspace(0, 7, 50)
-corrections = [detect.correction_size(M, 0.5) for M in masses]
-ax1.loglog(masses, corrections, 'b-', linewidth=2)
-ax1.axhline(0.01, color='red', linestyle='--', label='1% threshold')
-ax1.axhline(0.001, color='orange', linestyle='--', label='0.1% threshold')
-ax1.set_xlabel('Black Hole Mass (M_sun)')
-ax1.set_ylabel('Relative Kaelion Correction')
-ax1.set_title('Correction Size vs Mass')
-ax1.legend()
-ax1.grid(True, alpha=0.3)
-
-# 2. Ringdown waveform
-ax2 = axes[0, 1]
-t = np.linspace(0, 100, 500)
-h_standard = gw.ringdown_modification(t, 0)  # λ=0
-h_holographic = gw.ringdown_modification(t, 1)  # λ=1
-ax2.plot(t, h_standard, 'b-', linewidth=1, label='λ=0 (LQG)')
-ax2.plot(t, h_holographic, 'r--', linewidth=1, label='λ=1 (Holographic)')
-ax2.set_xlabel('Time (M)')
-ax2.set_ylabel('Strain h(t)')
-ax2.set_title('Ringdown Waveform')
-ax2.legend()
-ax2.grid(True, alpha=0.3)
-ax2.set_xlim(0, 100)
-
-# 3. Detection timeline
-ax3 = axes[1, 0]
-years = [2025, 2030, 2035, 2040, 2045]
-sensitivity = [0.1, 0.03, 0.01, 0.003, 0.001]
-ax3.semilogy(years, sensitivity, 'go-', linewidth=2, markersize=10)
-ax3.axhline(detect.correction_size(30, 0.5), color='red', linestyle='--', 
-            label='Kaelion effect (M=30)')
-ax3.set_xlabel('Year')
-ax3.set_ylabel('Detectable Correction')
-ax3.set_title('Sensitivity Timeline')
-ax3.legend()
-ax3.grid(True, alpha=0.3)
-
-# 4. Summary
-ax4 = axes[1, 1]
-ax4.axis('off')
-summary = """
-ASTROPHYSICAL DETECTION SUMMARY
-
-OBSERVABLES:
-• GW ringdown (LIGO/ET)
-• BH shadow (EHT)
-• X-ray spectra (Chandra)
-
-EFFECT SIZE:
-• Stellar BH (30 M_sun): ~10⁻³
-• SMBH (10⁶ M_sun): ~10⁻⁵
-
-CURRENT STATUS:
-• NOT detectable with current tech
-• Need 10-100x sensitivity improvement
-
-TIMELINE:
-• 2025-2030: Prepare pipelines
-• 2030-2040: Possible detection (ET)
-• 2040+: Likely detection
-
-RECOMMENDATION:
-Focus on lab experiments
-(quantum circuits, BEC)
-while waiting for better
-astrophysical instruments.
 """
-ax4.text(0.1, 0.9, summary, transform=ax4.transAxes, fontsize=10,
-         verticalalignment='top', family='monospace',
-         bbox=dict(boxstyle='round', facecolor='lightyellow', alpha=0.5))
+Astrophysical Black Holes and Kaelion:
+--------------------------------------
+Real black holes should exhibit Kaelion corrections in:
 
-plt.tight_layout()
-plt.savefig('Experiment3_Astrophysical.png', dpi=150, bbox_inches='tight')
-print("Figure saved: Experiment3_Astrophysical.png")
-plt.close()
+1. Quasinormal Mode (QNM) Spectrum:
+   ω_n = ω_n^GR * [1 + δω(λ)]
+   
+   where δω(λ) ~ λ * (ℓ_P/r_s)² is suppressed by Planck scale
+
+2. Black Hole Shadow:
+   R_shadow = R_GR * [1 + δR(λ)]
+   
+   where δR(λ) ~ λ * (ℓ_P/r_s)² 
+
+3. X-ray Reflection Spectrum:
+   Iron line profile modified by metric corrections near horizon
+
+Challenge:
+---------
+The Kaelion corrections are suppressed by (ℓ_P/r_s)² ~ 10⁻⁷⁶ for stellar BHs
+and ~ 10⁻⁸⁶ for supermassive BHs. Direct detection is effectively impossible.
+
+However, cumulative effects or extreme environments (primordial BHs) 
+might amplify signals to detectable levels.
+"""
+
+# =============================================================================
+# CONSTANTS
+# =============================================================================
+
+class Constants:
+    """Physical constants in SI units."""
+    G = 6.674e-11  # m³ kg⁻¹ s⁻²
+    c = 3e8  # m/s
+    hbar = 1.055e-34  # J·s
+    M_sun = 1.989e30  # kg
+    
+    # Planck scale
+    l_P = np.sqrt(hbar * G / c**3)  # ~1.6e-35 m
+    t_P = l_P / c  # ~5.4e-44 s
+    M_P = np.sqrt(hbar * c / G)  # ~2.2e-8 kg
+
+
+def schwarzschild_radius(M: float) -> float:
+    """Schwarzschild radius: r_s = 2GM/c²"""
+    return 2 * Constants.G * M / Constants.c**2
+
+
+def planck_suppression(M: float) -> float:
+    """
+    Kaelion corrections are suppressed by (ℓ_P/r_s)².
+    
+    For stellar BH (10 M_sun): ~ 10⁻⁷⁶
+    For SMBH (10⁶ M_sun): ~ 10⁻⁸⁶
+    """
+    r_s = schwarzschild_radius(M)
+    return (Constants.l_P / r_s)**2
 
 
 # =============================================================================
-# CONCLUSIONS
+# QUASINORMAL MODES
 # =============================================================================
 
-print("\n" + "="*70)
-print("CONCLUSIONS")
-print("="*70)
+def qnm_frequency_GR(M: float, l: int = 2, n: int = 0) -> complex:
+    """
+    Quasinormal mode frequency in GR (Schwarzschild).
+    
+    For l=2, n=0 (dominant mode):
+    ω ≈ (0.3737 - 0.0890i) * c³/(GM)
+    
+    Args:
+        M: Black hole mass in kg
+        l: Angular quantum number
+        n: Overtone number
+    
+    Returns:
+        Complex frequency (real = oscillation, imag = damping)
+    """
+    # Numerical fits for l=2 Schwarzschild QNMs
+    omega_coeffs = {
+        (2, 0): (0.3737, -0.0890),
+        (2, 1): (0.3467, -0.2739),
+        (3, 0): (0.5994, -0.0927),
+    }
+    
+    if (l, n) not in omega_coeffs:
+        # Approximate for other modes
+        real = 0.37 + 0.06 * (l - 2)
+        imag = -0.09 - 0.05 * n
+    else:
+        real, imag = omega_coeffs[(l, n)]
+    
+    scale = Constants.c**3 / (Constants.G * M)
+    return complex(real * scale, imag * scale)
 
-print("""
-╔══════════════════════════════════════════════════════════════════════╗
-║                                                                      ║
-║           ASTROPHYSICAL SIGNATURES - ANALYSIS COMPLETE               ║
-║                                                                      ║
-╠══════════════════════════════════════════════════════════════════════╣
-║                                                                      ║
-║  KAELION EFFECT IN ASTROPHYSICS:                                     ║
-║    • Present but VERY SMALL (log/area corrections)                  ║
-║    • Stellar BH: ~0.1% correction                                   ║
-║    • SMBH: ~0.001% correction                                       ║
-║                                                                      ║
-║  CURRENT DETECTABILITY:                                              ║
-║    • LIGO/Virgo: NO (need 100x better)                              ║
-║    • EHT: NO (need 1000x better)                                    ║
-║    • X-ray: NO (need better spectroscopy)                           ║
-║                                                                      ║
-║  FUTURE PROSPECTS:                                                   ║
-║    • Einstein Telescope (2035): MAYBE                               ║
-║    • LISA (2037): POSSIBLE for EMRIs                                ║
-║    • Advanced future tech: LIKELY                                   ║
-║                                                                      ║
-║  RECOMMENDATION:                                                     ║
-║    • Priority: Lab experiments (circuits, BEC)                      ║
-║    • Secondary: Prepare analysis pipelines                          ║
-║    • Long-term: Wait for next-gen instruments                       ║
-║                                                                      ║
-╚══════════════════════════════════════════════════════════════════════╝
-""")
 
-print("="*70)
+def qnm_frequency_kaelion(M: float, lambda_K: float, l: int = 2, n: int = 0) -> complex:
+    """
+    QNM frequency with Kaelion correction.
+    
+    ω_Kaelion = ω_GR * [1 + λ * (ℓ_P/r_s)² * f(l,n)]
+    
+    The correction function f(l,n) encodes how Kaelion modifies
+    the near-horizon geometry.
+    """
+    omega_GR = qnm_frequency_GR(M, l, n)
+    
+    # Kaelion correction factor
+    suppression = planck_suppression(M)
+    
+    # Correction depends on mode (higher modes more sensitive)
+    f_ln = 1.0 + 0.1 * l + 0.5 * n
+    
+    correction = lambda_K * suppression * f_ln
+    
+    return omega_GR * (1 + correction)
+
+
+def qnm_measurability(M: float) -> Dict:
+    """
+    Assess measurability of Kaelion correction in QNMs.
+    
+    Current LIGO sensitivity: Δω/ω ~ 10⁻²
+    Needed for Kaelion: Δω/ω ~ 10⁻⁷⁶ (stellar) to 10⁻⁸⁶ (SMBH)
+    
+    Verdict: Not measurable with foreseeable technology
+    """
+    suppression = planck_suppression(M)
+    current_sensitivity = 1e-2
+    
+    return {
+        'kaelion_correction': suppression,
+        'current_sensitivity': current_sensitivity,
+        'improvement_needed': current_sensitivity / suppression,
+        'measurable': False,
+        'note': 'Planck-scale suppression makes direct detection impossible'
+    }
+
+
+# =============================================================================
+# BLACK HOLE SHADOW
+# =============================================================================
+
+def shadow_radius_GR(M: float) -> float:
+    """
+    Shadow radius for Schwarzschild BH.
+    
+    R_shadow = 3√3 * GM/c² ≈ 5.196 * r_s/2
+    """
+    return 3 * np.sqrt(3) * Constants.G * M / Constants.c**2
+
+
+def shadow_radius_kaelion(M: float, lambda_K: float) -> float:
+    """
+    Shadow radius with Kaelion correction.
+    
+    R_Kaelion = R_GR * [1 + λ * (ℓ_P/r_s)² * g(λ)]
+    
+    where g(λ) ~ 1 is a model-dependent function.
+    """
+    R_GR = shadow_radius_GR(M)
+    suppression = planck_suppression(M)
+    
+    # Kaelion shifts the photon sphere slightly
+    correction = lambda_K * suppression
+    
+    return R_GR * (1 + correction)
+
+
+def eht_analysis(M: float = 6.5e9 * Constants.M_sun) -> Dict:
+    """
+    Analysis for Event Horizon Telescope (M87* parameters).
+    
+    M87* black hole:
+    - Mass: 6.5 × 10⁹ M_sun
+    - Distance: 16.8 Mpc
+    - Shadow angular size: ~42 μas
+    
+    EHT precision: ~10%
+    Kaelion correction: ~10⁻⁸⁶
+    """
+    R_shadow = shadow_radius_GR(M)
+    suppression = planck_suppression(M)
+    
+    # Angular size for M87* distance
+    D_M87 = 16.8e6 * 3.086e16  # Mpc to meters
+    theta_shadow = R_shadow / D_M87 * 206265e6  # radians to microarcsec
+    
+    return {
+        'target': 'M87*',
+        'mass_solar': M / Constants.M_sun,
+        'shadow_radius_m': R_shadow,
+        'shadow_angular_uas': theta_shadow,
+        'eht_precision': 0.10,  # 10%
+        'kaelion_correction': suppression,
+        'measurable': False,
+        'note': 'Shadow size precision ~10%, Kaelion correction ~10⁻⁸⁶'
+    }
+
+
+# =============================================================================
+# X-RAY SPECTROSCOPY
+# =============================================================================
+
+def iron_line_profile(E: np.ndarray, M: float, a: float = 0, lambda_K: float = 0) -> np.ndarray:
+    """
+    Iron Kα line profile from accretion disk.
+    
+    The line profile is affected by:
+    - Doppler shift (disk rotation)
+    - Gravitational redshift
+    - Beaming
+    
+    Kaelion corrections modify the innermost stable circular orbit (ISCO)
+    and thus the line profile shape.
+    
+    Args:
+        E: Energy array (keV)
+        M: Black hole mass
+        a: Spin parameter (0 for Schwarzschild)
+        lambda_K: Kaelion parameter
+    
+    Returns:
+        Line flux profile
+    """
+    E_rest = 6.4  # keV (Fe Kα)
+    
+    # GR profile (simplified Laor model)
+    r_isco = 6.0 if a == 0 else 1.0 + np.sqrt(1 - a**2)  # In units of GM/c²
+    
+    # Kaelion modification to ISCO
+    suppression = planck_suppression(M)
+    r_isco_kaelion = r_isco * (1 - lambda_K * suppression)
+    
+    # Simplified line profile
+    E_min = E_rest / (1 + 1/np.sqrt(r_isco_kaelion))
+    E_max = E_rest * (1 + 0.3)  # Blue wing from approaching disk
+    
+    profile = np.zeros_like(E)
+    mask = (E >= E_min) & (E <= E_max)
+    profile[mask] = np.exp(-((E[mask] - E_rest)**2) / (0.5**2))
+    
+    # Red wing
+    red_mask = (E >= 0.8 * E_rest) & (E < E_min)
+    profile[red_mask] = 0.3 * np.exp(-((E[red_mask] - E_min)**2) / (0.3**2))
+    
+    return profile / np.max(profile) if np.max(profile) > 0 else profile
+
+
+# =============================================================================
+# PRIMORDIAL BLACK HOLES
+# =============================================================================
+
+def pbh_kaelion_detection(M_pbh: float) -> Dict:
+    """
+    Primordial black holes might offer better detection prospects.
+    
+    Small PBHs (M ~ 10¹⁵ g ~ 10¹² kg) have:
+    - r_s ~ 10⁻¹⁵ m
+    - Suppression ~ (10⁻³⁵/10⁻¹⁵)² ~ 10⁻⁴⁰
+    
+    Still tiny, but less extreme than stellar/SMBH.
+    
+    Additionally, Hawking radiation from evaporating PBHs
+    could carry Kaelion signatures.
+    """
+    r_s = schwarzschild_radius(M_pbh)
+    suppression = planck_suppression(M_pbh)
+    
+    # Hawking temperature
+    T_H = Constants.hbar * Constants.c**3 / (8 * np.pi * Constants.G * M_pbh * 1.38e-23)
+    
+    # Evaporation time (years)
+    t_evap = 5120 * np.pi * Constants.G**2 * M_pbh**3 / (Constants.hbar * Constants.c**4)
+    t_evap_years = t_evap / (3.15e7)
+    
+    return {
+        'mass_kg': M_pbh,
+        'mass_g': M_pbh * 1000,
+        'r_schwarzschild_m': r_s,
+        'kaelion_suppression': suppression,
+        'hawking_temp_K': T_H,
+        'evap_time_years': t_evap_years,
+        'detection_prospect': 'Marginal - requires ~10⁻⁴⁰ precision',
+        'best_channel': 'Hawking radiation spectrum'
+    }
+
+
+# =============================================================================
+# EXPERIMENTAL PROTOCOL
+# =============================================================================
+
+def astrophysical_protocol() -> Dict:
+    """
+    Summary of astrophysical detection strategies.
+    """
+    
+    protocol = {
+        'title': 'Astrophysical Detection of Kaelion Parameter',
+        
+        'channels': {
+            'gravitational_waves': {
+                'observable': 'QNM ringdown spectrum',
+                'instruments': ['LIGO', 'Virgo', 'KAGRA', 'Einstein Telescope', 'LISA'],
+                'current_precision': '~1%',
+                'kaelion_signal': '~10⁻⁷⁶ (stellar BH)',
+                'feasibility': 'Not feasible',
+                'timeline': 'N/A'
+            },
+            
+            'black_hole_shadow': {
+                'observable': 'Shadow radius and shape',
+                'instruments': ['EHT', 'ngEHT'],
+                'current_precision': '~10%',
+                'kaelion_signal': '~10⁻⁸⁶ (SMBH)',
+                'feasibility': 'Not feasible',
+                'timeline': 'N/A'
+            },
+            
+            'x_ray_spectroscopy': {
+                'observable': 'Iron line profile, ISCO location',
+                'instruments': ['NICER', 'XRISM', 'Athena'],
+                'current_precision': '~5%',
+                'kaelion_signal': '~10⁻⁷⁶ to 10⁻⁸⁶',
+                'feasibility': 'Not feasible',
+                'timeline': 'N/A'
+            },
+            
+            'primordial_bh': {
+                'observable': 'Hawking radiation spectrum',
+                'instruments': ['Gamma-ray telescopes'],
+                'current_precision': 'Not yet detected',
+                'kaelion_signal': '~10⁻⁴⁰ (small PBH)',
+                'feasibility': 'Marginal - best prospect',
+                'timeline': 'Requires PBH detection first'
+            }
+        },
+        
+        'conclusion': 'Direct astrophysical detection of Kaelion is not feasible ' +
+                     'with current or planned instruments due to Planck-scale suppression. ' +
+                     'Analog systems (BEC, quantum circuits) remain the best verification path.',
+        
+        'alternative_approaches': [
+            'Analog gravity experiments (BEC, optical systems)',
+            'Quantum circuit simulations (IBM, Google)',
+            'Cumulative effects over cosmological time',
+            'Extreme environments (cosmological phase transitions)'
+        ]
+    }
+    
+    return protocol
+
+
+# =============================================================================
+# VISUALIZATION
+# =============================================================================
+
+def plot_suppression_vs_mass():
+    """Plot Kaelion suppression as function of BH mass."""
+    
+    masses_solar = np.logspace(0, 10, 100)  # 1 to 10^10 solar masses
+    masses_kg = masses_solar * Constants.M_sun
+    
+    suppressions = [planck_suppression(M) for M in masses_kg]
+    
+    fig, ax = plt.subplots(figsize=(10, 6))
+    
+    ax.loglog(masses_solar, suppressions, 'b-', linewidth=2)
+    
+    # Mark interesting objects
+    objects = {
+        'Stellar BH (10 M☉)': 10,
+        'Intermediate (10³ M☉)': 1e3,
+        'Sgr A* (4×10⁶ M☉)': 4e6,
+        'M87* (6.5×10⁹ M☉)': 6.5e9,
+    }
+    
+    for name, mass in objects.items():
+        supp = planck_suppression(mass * Constants.M_sun)
+        ax.scatter([mass], [supp], s=100, zorder=5)
+        ax.annotate(name, (mass, supp), textcoords='offset points', 
+                   xytext=(10, 10), fontsize=9)
+    
+    # Experimental thresholds
+    ax.axhline(1e-2, ls='--', c='red', alpha=0.5, label='LIGO precision ~1%')
+    ax.axhline(1e-1, ls='--', c='orange', alpha=0.5, label='EHT precision ~10%')
+    
+    ax.set_xlabel('Black Hole Mass (M☉)', fontsize=12)
+    ax.set_ylabel('Kaelion Suppression (ℓ_P/r_s)²', fontsize=12)
+    ax.set_title('Kaelion Correction vs Black Hole Mass', fontsize=14)
+    ax.legend()
+    ax.grid(True, alpha=0.3)
+    ax.set_ylim(1e-90, 1e-30)
+    
+    plt.tight_layout()
+    plt.savefig('astro_suppression.png', dpi=150, bbox_inches='tight')
+    print("Saved: astro_suppression.png")
+    plt.show()
+
+
+# =============================================================================
+# MAIN
+# =============================================================================
+
+if __name__ == "__main__":
+    print("="*60)
+    print("KAELION EXPERIMENT 3: ASTROPHYSICAL SIGNATURES")
+    print("="*60)
+    
+    # Show suppression for different BH masses
+    print("\nKaelion Suppression by BH Mass:")
+    print("-"*50)
+    
+    test_masses = [
+        ('Primordial BH (10¹² kg)', 1e12),
+        ('Stellar BH (10 M☉)', 10 * Constants.M_sun),
+        ('Sgr A* (4×10⁶ M☉)', 4e6 * Constants.M_sun),
+        ('M87* (6.5×10⁹ M☉)', 6.5e9 * Constants.M_sun),
+    ]
+    
+    for name, mass in test_masses:
+        supp = planck_suppression(mass)
+        print(f"{name}:")
+        print(f"  Suppression: {supp:.2e}")
+        print(f"  Improvement needed: {1e-2/supp:.2e}×")
+        print()
+    
+    # Show protocol
+    protocol = astrophysical_protocol()
+    print("\n" + "="*60)
+    print("CONCLUSION")
+    print("="*60)
+    print(f"\n{protocol['conclusion']}")
+    
+    print("\nAlternative approaches:")
+    for approach in protocol['alternative_approaches']:
+        print(f"  • {approach}")
+    
+    # Generate plot
+    try:
+        plot_suppression_vs_mass()
+    except:
+        print("\n(Plotting requires display - skipped)")
+    
+    print("\n" + "="*60)
+    print("Status: PROTOCOL READY - Awaiting future instruments")
+    print("="*60)

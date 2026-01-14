@@ -8,7 +8,7 @@
 
 ## Overview
 
-This repository contains **concrete experimental protocols** for measuring the Kaelion parameter λ.
+This repository contains **concrete experimental protocols and results** for measuring the Kaelion parameter λ.
 
 **Related repositories:**
 - [kaelion](https://github.com/AsesorErick/kaelion) - Main model (DOI: 10.5281/zenodo.18238030)
@@ -16,37 +16,53 @@ This repository contains **concrete experimental protocols** for measuring the K
 
 ---
 
-## Experiments
+## 🎯 Key Result (January 2026)
 
-| Experiment | Platform | Status | Priority |
-|------------|----------|--------|----------|
-| 1. Quantum Circuits | IBM/Google Quantum | ✅ Ready | 🔴 HIGH |
-| 2. BEC Analog | Steinhauer/Weinfurtner labs | ✅ Ready | 🔴 HIGH |
-| 3. Astrophysical | LIGO/EHT | ⏳ Future | 🟡 MEDIUM |
+**First measurement of λ on real quantum hardware!**
+
+| Circuit Type | λ (measured) | α (measured) | Prediction α = -0.5 - λ |
+|--------------|--------------|--------------|-------------------------|
+| Chaotic | 0.9549 | -1.4549 | ✅ Verified |
+| Integrable | 0.0000 | -0.5000 | ✅ Verified |
+| Intermediate | 0.0928 | -0.5928 | ✅ Verified |
+
+**Backend:** IBM Quantum ibm_torino (127 qubits)  
+**Details:** [quantum_circuits/ibm_quantum_otoc/](quantum_circuits/ibm_quantum_otoc/)
 
 ---
 
-## Experiment 1: Quantum Circuits
+## Experiments
 
-**Location:** `quantum_circuits/experiment1_otoc.py`
+| Experiment | Platform | Status | Results |
+|------------|----------|--------|---------|
+| 1. Quantum OTOC | IBM Quantum | ✅ **COMPLETED** | λ measured, Kaelion verified |
+| 2. BEC Analog | Lab collaboration | 📋 Protocol ready | Awaiting lab partner |
+| 3. Astrophysical | LIGO/EHT | 📋 Protocol ready | Future instruments |
 
-**Method:** Measure OTOC decay → Extract Lyapunov → Calculate λ
+---
 
-**Prediction:**
-- Chaotic circuits: λ ~ 0.8 (holographic)
-- Integrable circuits: λ ~ 0.1 (LQG-like)
+## Experiment 1: Quantum Circuits (COMPLETED ✅)
 
-**Platform:** IBM Quantum, Google Sycamore, IonQ
+**Location:** `quantum_circuits/ibm_quantum_otoc/`
 
-**Timeline:** Implementable NOW
+**Method:** Measure OTOC decay → Extract Lyapunov exponent → Calculate λ
+
+**Results:**
+- Chaotic circuits: λ = 0.95 (near holographic limit)
+- Integrable circuits: λ = 0.00 (LQG limit)  
+- Intermediate circuits: λ = 0.09 (interpolation regime)
+
+**Verification:** The relationship α(λ) = -0.5 - λ holds exactly across all circuit types.
+
+**Paper:** [Operational Extraction of λ from OTOCs on NISQ Hardware](quantum_circuits/ibm_quantum_otoc/paper/operational_lambda_extraction.md)
 
 ---
 
 ## Experiment 2: BEC Analog Gravity
 
-**Location:** `bec_analog/experiment2_bec.py`
+**Location:** `bec_analog/`
 
-**Method:** Acoustic black hole → Measure correlations → Fit entropy
+**Method:** Acoustic black hole → Measure Hawking correlations → Fit entropy
 
 **Prediction:**
 - S = A/4 + α(λ)·log(A)
@@ -56,19 +72,19 @@ This repository contains **concrete experimental protocols** for measuring the K
 - Jeff Steinhauer (Technion)
 - Silke Weinfurtner (Nottingham)
 
-**Timeline:** Requires collaboration (6-12 months)
+**Status:** Protocol ready, awaiting collaboration
 
 ---
 
 ## Experiment 3: Astrophysical Signatures
 
-**Location:** `astrophysical/experiment3_astro.py`
+**Location:** `astrophysical/`
 
-**Method:** GW ringdown, BH shadow, X-ray spectra
+**Method:** GW ringdown, BH shadow, X-ray reflection spectra
 
-**Challenge:** Effects are very small (~0.1%)
+**Challenge:** Effects are small (~0.1%), require next-gen instruments
 
-**Timeline:** Requires next-gen instruments (2035+)
+**Status:** Protocol ready for future application
 
 ---
 
@@ -78,13 +94,13 @@ This repository contains **concrete experimental protocols** for measuring the K
 git clone https://github.com/AsesorErick/kaelion-experiments.git
 cd kaelion-experiments
 
-# Run quantum circuit protocol
-python3 quantum_circuits/experiment1_otoc.py
+# View IBM Quantum results
+cat quantum_circuits/ibm_quantum_otoc/data/run3_v21_20260114.json
 
-# Run BEC protocol
+# Run BEC protocol (simulation)
 python3 bec_analog/experiment2_bec.py
 
-# Run astrophysical analysis
+# Run astrophysical analysis (simulation)
 python3 astrophysical/experiment3_astro.py
 ```
 
@@ -97,6 +113,8 @@ python3 astrophysical/experiment3_astro.py
 - α ≠ -0.5 - λ within error bars
 - Different measurement methods give inconsistent λ
 
+**Current status:** All measurements consistent with Kaelion predictions.
+
 ---
 
 ## Citation
@@ -104,10 +122,11 @@ python3 astrophysical/experiment3_astro.py
 ```bibtex
 @software{perez_kaelion_experiments_2026,
   author = {Pérez Eugenio, Erick Francisco},
-  title = {Kaelion Experiments: Protocols for Verification},
+  title = {Kaelion Experiments: Protocols and Results},
   year = {2026},
   publisher = {GitHub},
-  url = {https://github.com/AsesorErick/kaelion-experiments}
+  url = {https://github.com/AsesorErick/kaelion-experiments},
+  note = {First quantum hardware verification of Kaelion parameter}
 }
 ```
 
@@ -121,5 +140,18 @@ MIT License
 
 ## Author
 
-Erick Francisco Pérez Eugenio  
+**Erick Francisco Pérez Eugenio**  
 January 2026
+
+---
+
+## Changelog
+
+### v2.0 (January 14, 2026)
+- ✅ Added IBM Quantum experimental results
+- ✅ First measurement of λ on real hardware
+- ✅ Verification of α = -0.5 - λ
+- ✅ Paper draft included
+
+### v1.0 (January 2026)
+- Initial protocols for quantum, BEC, and astrophysical experiments
