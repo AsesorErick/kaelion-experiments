@@ -58,9 +58,29 @@ This repository contains experimental protocols and IBM Quantum results for meas
 - `code1_simulador_ideal.py` - Baseline comparison
 - `code2_multi_backend.py` - Cross-QPU verification
 - `code3_repeticiones.py` - Statistical analysis
-- `code4_zne.py` - Error mitigation
+- `code4_zne.py` - Error mitigation (ZNE)
 - `code5_investigar_variabilidad.py` - Variability diagnosis
-- `code6_kicked_ising.py` - Robust chaotic circuit
+- `code6_kicked_ising.py` - Robust chaotic circuit (RECOMMENDED)
+
+---
+
+## Experiment 2: BEC Analog Gravity
+
+**Location:** `bec_analog/`
+
+**Method:** Acoustic black hole → Measure correlations → Fit entropy
+
+**Status:** Protocol ready, awaiting lab collaboration
+
+---
+
+## Experiment 3: Astrophysical Signatures
+
+**Location:** `astrophysical/`
+
+**Method:** GW ringdown, BH shadow, X-ray spectra
+
+**Status:** Protocol ready (effects ~10⁻⁷⁶, requires future instruments)
 
 ---
 
@@ -76,6 +96,7 @@ This repository contains experimental protocols and IBM Quantum results for meas
 ---
 
 ## Citation
+
 ```bibtex
 @software{perez_kaelion_experiments_2026,
   author = {Pérez Eugenio, Erick Francisco},
@@ -88,19 +109,29 @@ This repository contains experimental protocols and IBM Quantum results for meas
 
 ---
 
+## Changelog
+
+### v2.2 (January 15, 2026)
+- ✅ Kicked Ising circuit (100% stable chaotic)
+- ✅ Variability analysis documented
+- ✅ All three regimes verified with high confidence
+
+### v2.1 (January 15, 2026)
+- Multi-backend verification (3 QPUs)
+- Statistical analysis (5 runs)
+- Zero Noise Extrapolation
+
+### v2.0 (January 14, 2026)
+- First IBM Quantum measurements
+- Initial OTOC protocol
+
+---
+
 ## License
 
 MIT License
 
 ## Author
 
-Erick Francisco Pérez Eugenio
+Erick Francisco Pérez Eugenio  
 January 2026
-```
-
----
-
-### Commit:
-**Título:**
-```
-Update README with final v2.2 results

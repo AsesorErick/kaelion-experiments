@@ -1,0 +1,80 @@
+{
+  "experiment": "Kicked Ising vs Random Chaotic",
+  "date": "2026-01-15",
+  "backend": "ibm_fez",
+  "n_qubits": 4,
+  "depths": [1, 2, 4, 6, 8, 10, 14],
+  "shots": 4096,
+  "n_runs": 5,
+
+  "kicked_ising_params": {
+    "J": 0.9,
+    "h": 0.7,
+    "description": "Known chaotic regime"
+  },
+
+  "results_random": {
+    "seeds": [42, 1042, 2042, 3042, 4042],
+    "lambda_values": [1.0000, 1.0000, 1.0000, 0.0196, 1.0000],
+    "mean": 0.8039,
+    "std": 0.3922,
+    "error_pct": 48.8,
+    "jobs": [
+      "d5k8tlv853es738dj8sg",
+      "d5k8tt2vcahs73a1mm2g",
+      "d5k8u4sjt3vs73ds5j90",
+      "d5k8uccjt3vs73ds5jh0",
+      "d5k8ujf853es738dja0g"
+    ]
+  },
+
+  "results_kicked_ising": {
+    "lambda_values": [1.0000, 1.0000, 1.0000, 1.0000, 1.0000],
+    "mean": 1.0000,
+    "std": 0.0000,
+    "error_pct": 0.0,
+    "jobs": [
+      "d5k8tpn853es738dj91g",
+      "d5k8u1f853es738dj9a0",
+      "d5k8u8n853es738dj9kg",
+      "d5k8ufv853es738dj9s0",
+      "d5k8umqvcahs73a1mn20"
+    ]
+  },
+
+  "comparison": {
+    "variability_reduction": "100%",
+    "kicked_ising_better": true,
+    "recommended_circuit": "Kicked Ising"
+  },
+
+  "final_kaelion_results": {
+    "integrable": {
+      "lambda": 0.000,
+      "lambda_err": 0.000,
+      "alpha": -0.500,
+      "alpha_err": 0.000,
+      "confidence": "high"
+    },
+    "intermediate": {
+      "lambda": 0.111,
+      "lambda_err": 0.010,
+      "alpha": -0.611,
+      "alpha_err": 0.010,
+      "confidence": "high"
+    },
+    "chaotic_kicked_ising": {
+      "lambda": 1.000,
+      "lambda_err": 0.000,
+      "alpha": -1.500,
+      "alpha_err": 0.000,
+      "confidence": "high"
+    }
+  },
+
+  "kaelion_verification": {
+    "formula": "α(λ) = -0.5 - λ",
+    "verified": true,
+    "all_three_regimes": true
+  }
+}
