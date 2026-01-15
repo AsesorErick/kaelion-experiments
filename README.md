@@ -76,6 +76,7 @@ This repository contains experimental protocols and IBM Quantum results for meas
 ---
 
 ## Citation
+
 ```bibtex
 @software{perez_kaelion_experiments_2026,
   author = {Pérez Eugenio, Erick Francisco},
@@ -96,4 +97,3 @@ MIT License
 
 Erick Francisco Pérez Eugenio  
 January 2026
-Fix README formatting
