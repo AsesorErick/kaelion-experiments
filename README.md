@@ -96,10 +96,4 @@ MIT License
 
 Erick Francisco Pérez Eugenio  
 January 2026
-```
-
----
-
-### Commit:
-```
-Update README with final results and DOI
+Fix README formatting
