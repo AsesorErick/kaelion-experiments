@@ -1,6 +1,6 @@
 # Kaelion Experiments v3.0
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.18253868.svg)](https://doi.org/10.5281/zenodo.18253868)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.18260840.svg)](https://doi.org/10.5281/zenodo.18260840)
 
 Experimental verification of the Kaelion parameter λ on IBM Quantum hardware.
 
@@ -98,8 +98,8 @@ python code6_kicked_ising.py
   year         = 2026,
   publisher    = {Zenodo},
   version      = {v3.0},
-  doi          = {10.5281/zenodo.18253868},
-  url          = {https://doi.org/10.5281/zenodo.18253868}
+  doi          = {10.5281/zenodo.18260840},
+  url          = {https://doi.org/10.5281/zenodo.18260840}
 }
 ```
 
